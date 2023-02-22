@@ -4,5 +4,35 @@
 <p><strong>Address:</strong> <%= @restaurant.address %></p>
 <p><strong>Phone Number:</strong> <%= @restaurant.phone_number %></p>
 
-<%= link_to "Edit", edit_restaurant_path(@restaurant) %> |
-<%= link_to "Back", restaurants_path %>
+<%= simple_form_for([@restaurant, @restaurant.reviews.build]) do |f| %>
+  <h2>Add a review</h2>
+  <%= f.input :content, label: "Content", input_html: { class: "form-control" } %>
+  <%= f.input :rating, label: "Rating", collection: (0..5), input_html: { class: "form-control" } %>
+  <%= f.submit "Submit", class: "btn btn-primary" %>
+<% end %>
+
+<h2>Reviews</h2>
+<% if @restaurant.reviews.any? %>
+  <ul>
+    <% @restaurant.reviews.each do |review| %>
+      <li>
+        <p><%= review.content %></p>
+        <div class="stars">
+          <% (1..5).each do |i| %>
+            <% if review.rating&.>= i %>
+              <span class="star checked"><i class="fas fa-star"></i></span>
+            <% else %>
+              <span class="star"><i class="far fa-star"></i></span>
+            <% end %>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No reviews yet</p>
+<% end %>
+</ul>
+
+<%= link_to "Edit", edit_restaurant_path(@restaurant), class: "btn btn-secondary" %> |
+<%= link_to "Back", restaurants_path, class: "btn btn-secondary" %>

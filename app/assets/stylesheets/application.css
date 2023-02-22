@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+ .stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  color: #ccc;
+  margin-right: 5px;
+}
+
+.checked {
+  color: #f8c102;
+}
